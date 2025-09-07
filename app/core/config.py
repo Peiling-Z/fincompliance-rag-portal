@@ -28,12 +28,24 @@ class Settings(BaseSettings):
     database_url: str
     redis_url: str = "redis://localhost:6379"
     
+    # Cloud SQL Configuration
+    cloud_sql_connection_name: Optional[str] = None
+    cloud_sql_user: Optional[str] = None
+    cloud_sql_password: Optional[str] = None
+    cloud_sql_database: Optional[str] = None
+    cloud_sql_region: Optional[str] = None
+    
     # Vector Database
-    vector_db_type: str = "weaviate"  # weaviate, pinecone
+    vector_db_type: str = "vertex_ai"
     weaviate_url: Optional[str] = None
     weaviate_api_key: Optional[str] = None
     pinecone_api_key: Optional[str] = None
     pinecone_environment: Optional[str] = None
+
+    # Google Cloud Configuration
+    gcp_project_id: Optional[str] = None
+    gcp_region: str = "us-central1"
+    gcp_zone: str = "us-central1-a"
     
     # AI/LLM
     openai_api_key: str
@@ -51,6 +63,9 @@ class Settings(BaseSettings):
     # Storage
     upload_dir: str = "data/uploads"
     processed_dir: str = "data/processed"
+    
+    # Cloud Storage
+    cloud_storage_bucket: Optional[str] = None
     
     # Monitoring
     sentry_dsn: Optional[str] = None

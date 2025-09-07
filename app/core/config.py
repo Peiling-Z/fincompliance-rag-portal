@@ -66,10 +66,15 @@ class Settings(BaseSettings):
     
     # Cloud Storage
     cloud_storage_bucket: Optional[str] = None
-    
+
     # Document AI
     document_ai_processor_id: Optional[str] = None
     document_ai_location: str = "us"
+
+    # Vertex AI
+    vertex_ai_location: str = "us-central1"
+    vertex_ai_model_name: str = "text-bison@001"
+    vertex_ai_embedding_model: str = "textembedding-gecko@001"
     
     # Monitoring
     sentry_dsn: Optional[str] = None

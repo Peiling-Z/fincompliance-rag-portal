@@ -67,6 +67,10 @@ class Settings(BaseSettings):
     # Cloud Storage
     cloud_storage_bucket: Optional[str] = None
     
+    # Document AI
+    document_ai_processor_id: Optional[str] = None
+    document_ai_location: str = "us"
+    
     # Monitoring
     sentry_dsn: Optional[str] = None
     log_level: str = "INFO"

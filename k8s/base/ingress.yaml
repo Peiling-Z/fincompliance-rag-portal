@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fincompliance-ingress
+  namespace: fincompliance
+  labels:
+    app.kubernetes.io/name: fincompliance-rag-portal
+    app.kubernetes.io/component: ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "fincompliance-ip"
+    networking.gke.io/managed-certificates: "fincompliance-ssl-cert"
+    kubernetes.io/ingress.allow-http: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/client-max-body-size: "100m"
+spec:
+  rules:
+  - host: api.fincompliance.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fincompliance-api-service
+            port:
+              number: 8000
+  - host: app.fincompliance.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fincompliance-ui-service
+            port:
+              number: 8501
+  tls:
+  - hosts:
+    - api.fincompliance.com
+    - app.fincompliance.com
+    secretName: fincompliance-tls

@@ -1,0 +1,100 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: fincompliance-rag-portal
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/execution-environment: gen2
+    run.googleapis.com/cpu-throttling: "false"
+    autoscaling.knative.dev/maxScale: "10"
+    autoscaling.knative.dev/minScale: "1"
+    run.googleapis.com/memory: "2Gi"
+    run.googleapis.com/cpu: "2"
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/cloudsql-instances: "your-project:us-central1:fincompliance-db"
+        run.googleapis.com/execution-environment: gen2
+        autoscaling.knative.dev/maxScale: "10"
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 100
+      timeoutSeconds: 300
+      serviceAccountName: fincompliance-sa@your-project.iam.gserviceaccount.com
+      containers:
+      - image: gcr.io/your-project/fincompliance-rag-portal:latest
+        ports:
+        - containerPort: 8000
+          name: http1
+        env:
+        - name: PORT
+          value: "8000"
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DEBUG
+          value: "false"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: DATABASE_URL
+          value: "postgresql://postgres:postgres@/fincompliance?host=/cloudsql/your-project:us-central1:fincompliance-db"
+        - name: REDIS_URL
+          value: "redis://10.0.0.3:6379"
+        - name: GCP_PROJECT_ID
+          value: "your-project"
+        - name: GCP_REGION
+          value: "us-central1"
+        - name: GCP_ZONE
+          value: "us-central1-a"
+        - name: CLOUD_SQL_CONNECTION_NAME
+          value: "your-project:us-central1:fincompliance-db"
+        - name: CLOUD_SQL_USER
+          value: "postgres"
+        - name: CLOUD_SQL_DATABASE
+          value: "fincompliance"
+        - name: CLOUD_SQL_REGION
+          value: "us-central1"
+        - name: CLOUD_STORAGE_BUCKET
+          value: "fincompliance-documents"
+        - name: DOCUMENT_AI_PROCESSOR_ID
+          value: "your-processor-id"
+        - name: DOCUMENT_AI_LOCATION
+          value: "us"
+        - name: VERTEX_AI_LOCATION
+          value: "us-central1"
+        - name: VERTEX_AI_MODEL_NAME
+          value: "text-bison@001"
+        - name: VERTEX_AI_EMBEDDING_MODEL
+          value: "textembedding-gecko@001"
+        - name: ALLOWED_ORIGINS
+          value: "https://your-domain.com"
+        - name: ALLOWED_HOSTS
+          value: "your-domain.com"
+        - name: API_V1_STR
+          value: "/api/v1"
+        - name: PROJECT_NAME
+          value: "FinCompliance RAG Portal"
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+          requests:
+            cpu: "1"
+            memory: "1Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      timeoutSeconds: 300

@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fincompliance-config
+  namespace: fincompliance
+  labels:
+    app.kubernetes.io/name: fincompliance-rag-portal
+    app.kubernetes.io/component: config
+data:
+  # Application settings
+  ENVIRONMENT: "production"
+  DEBUG: "false"
+  LOG_LEVEL: "info"
+  
+  # Database settings
+  DATABASE_URL: "postgresql://postgres:postgres@postgres-service:5432/fincompliance"
+  
+  # Redis settings
+  REDIS_URL: "redis://redis-service:6379"
+  
+  # GCP settings
+  GCP_PROJECT_ID: "your-gcp-project-id"
+  GCP_REGION: "us-central1"
+  GCP_ZONE: "us-central1-a"
+  
+  # Cloud SQL settings
+  CLOUD_SQL_CONNECTION_NAME: "your-project:us-central1:fincompliance-db"
+  CLOUD_SQL_USER: "postgres"
+  CLOUD_SQL_DATABASE: "fincompliance"
+  CLOUD_SQL_REGION: "us-central1"
+  
+  # Cloud Storage settings
+  CLOUD_STORAGE_BUCKET: "fincompliance-documents"
+  
+  # Document AI settings
+  DOCUMENT_AI_PROCESSOR_ID: "your-processor-id"
+  DOCUMENT_AI_LOCATION: "us"
+  
+  # Vertex AI settings
+  VERTEX_AI_LOCATION: "us-central1"
+  VERTEX_AI_MODEL_NAME: "text-bison@001"
+  VERTEX_AI_EMBEDDING_MODEL: "textembedding-gecko@001"
+  
+  # Security settings
+  ALLOWED_ORIGINS: "https://your-domain.com,https://www.your-domain.com"
+  ALLOWED_HOSTS: "your-domain.com,www.your-domain.com"
+  
+  # API settings
+  API_V1_STR: "/api/v1"
+  PROJECT_NAME: "FinCompliance RAG Portal"

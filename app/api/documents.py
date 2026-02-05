@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import get_current_active_user
 from app.models.user import User
-from app.models.document import Document, DocumentResponse, DocumentStatus
+from app.models.document import Document, DocumentResponse, DocumentStatus, DocumentChunk
 from app.services.document_processor import document_processor_service
 from app.services.rag_service import rag_service
 
@@ -258,7 +258,7 @@ async def get_document_chunks(
                 "id": chunk.id,
                 "chunk_index": chunk.chunk_index,
                 "content": chunk.content,
-                "metadata": chunk.metadata
+                "metadata": chunk.chunk_metadata
             })
         
         return {

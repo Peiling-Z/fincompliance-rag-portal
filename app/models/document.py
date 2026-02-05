@@ -30,7 +30,7 @@ class Document(Base):
     file_size = Column(Integer, nullable=False)
     file_type = Column(String(50), nullable=False)
     status = Column(String(20), default=DocumentStatus.UPLOADED)
-    metadata = Column(JSON, nullable=True)
+    doc_metadata = Column(JSON, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -49,7 +49,7 @@ class DocumentChunk(Base):
     document_id = Column(Integer, ForeignKey("documents.id"), nullable=False)
     chunk_index = Column(Integer, nullable=False)
     content = Column(Text, nullable=False)
-    metadata = Column(JSON, nullable=True)
+    chunk_metadata = Column(JSON, nullable=True)
     embedding_id = Column(String(100), nullable=True)  # Vector DB ID
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
@@ -79,7 +79,7 @@ class DocumentUpload(BaseModel):
     filename: str
     file_type: str
     file_size: int
-    metadata: Optional[Dict[str, Any]] = None
+    doc_metadata: Optional[Dict[str, Any]] = None
 
 
 class DocumentResponse(BaseModel):
@@ -90,7 +90,7 @@ class DocumentResponse(BaseModel):
     file_size: int
     file_type: str
     status: DocumentStatus
-    metadata: Optional[Dict[str, Any]]
+    doc_metadata: Optional[Dict[str, Any]]
     created_at: datetime
     processed_at: Optional[datetime]
     chunk_count: Optional[int] = None
@@ -104,7 +104,7 @@ class DocumentChunkResponse(BaseModel):
     id: int
     chunk_index: int
     content: str
-    metadata: Optional[Dict[str, Any]]
+    chunk_metadata: Optional[Dict[str, Any]]
     
     class Config:
         from_attributes = True

@@ -56,7 +56,8 @@ with st.sidebar:
 def fetch_statistics(endpoint, params=None):
     """Fetch statistics from API"""
     try:
-        # TODO: Add authentication headers when auth is implemented
+        # Note: Authentication should be implemented using token stored in session state
+        # For now, requests will fail with 401 if not authenticated
         response = requests.get(f"{API_URL}/api/v1/statistics/{endpoint}", params=params)
         
         if response.status_code == 200:

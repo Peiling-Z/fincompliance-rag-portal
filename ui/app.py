@@ -6,6 +6,8 @@ API_URL = os.environ.get("API_URL", "http://localhost:8000")
 st.set_page_config(page_title="FinCompliance RAG", layout="wide")
 
 # Simple navigation using sidebar
+# NOTE: For production, consider using Streamlit's native multipage app structure
+# by moving pages to a pages/ subdirectory for automatic navigation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Home", "Statistics"], index=0)
 

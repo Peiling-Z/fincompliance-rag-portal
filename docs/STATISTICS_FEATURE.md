@@ -26,7 +26,20 @@ Returns query response statistics with optional date filtering.
 
 **File**: `ui/pages/statistics.py`
 
-Run independently with: `streamlit run ui/pages/statistics.py`
+### Running Options
+
+#### Option 1: Run Independently
+```bash
+streamlit run ui/pages/statistics.py
+```
+
+#### Option 2: Using Streamlit Multipage Apps (Recommended)
+For better integration, move the statistics page to follow Streamlit's native multipage structure:
+1. Create a `pages/` subdirectory under `ui/`
+2. Rename `statistics.py` to `1_📊_Statistics.py` (or similar)
+3. Streamlit will automatically create navigation
+
+For more info, see [Streamlit Multipage Apps](https://docs.streamlit.io/library/get-started/multipage-apps)
 
 ### Features
 - Overview metrics (documents, queries, response times)

@@ -13,7 +13,7 @@ from fastapi.openapi.utils import get_openapi
 from app.core.config import settings
 from app.core.database import engine
 from app.models import user, document
-from app.api import documents, qa
+from app.api import documents, qa, statistics
 
 # Configure logging
 logging.basicConfig(
@@ -144,6 +144,7 @@ async def root():
 # Include API routers
 app.include_router(documents.router, prefix="/api/v1")
 app.include_router(qa.router, prefix="/api/v1")
+app.include_router(statistics.router, prefix="/api/v1")
 
 
 # Custom OpenAPI schema
